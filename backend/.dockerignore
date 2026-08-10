@@ -1,0 +1,33 @@
+# Local repository and tooling files
+.git/
+.gitignore
+.vscode/
+
+# Local environment and credentials
+.env
+.env.*
+crypto/
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Generated certificate and enrollment output
+certs/
+organizations/
+
+# Build artifacts and local binaries
+ca-backend
+*.test
+*.out
+coverage/
+
+# Logs and temporary files
+*.log
+*.tmp
+.DS_Store
+
+# Dockerfile documentation is not needed by the build context
+Dockerfile
+README.md

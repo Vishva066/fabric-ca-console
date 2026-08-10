@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4F46E5" />
+      <stop offset="50%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#1E1B4B" />
+    </linearGradient>
+
+    <!-- Shield/Badge Inner Gradient -->
+    <linearGradient id="shieldGrad" x1="120" y1="80" x2="392" y2="432" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#312E81" />
+    </linearGradient>
+
+    <!-- Certificate Seal Ribbon Accent -->
+    <linearGradient id="sealGrad" x1="200" y1="200" x2="312" y2="312" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#818CF8" />
+    </linearGradient>
+
+    <!-- Glow effect -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Soft Drop Shadow -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- Base Rounded Card Container -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" filter="url(#shadow)" />
+
+  <!-- Subtle Hexagonal/Grid Accent Lines in Background -->
+  <path d="M256 64 L416 156 V340 L256 432 L96 340 V156 Z" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2" />
+
+  <!-- Security Shield & Node Network Base -->
+  <path d="M256 96 C336 96 384 120 384 120 V256 C384 344 320 400 256 424 C192 400 128 344 128 256 V120 C128 120 176 96 256 96 Z" fill="url(#shieldGrad)" stroke="#A5B4FC" stroke-width="4" stroke-opacity="0.5" filter="url(#shadow)" />
+
+  <!-- Blockchain Node Network Points around Shield -->
+  <circle cx="256" cy="64" r="10" fill="#38BDF8" />
+  <circle cx="416" cy="156" r="10" fill="#818CF8" />
+  <circle cx="416" cy="340" r="10" fill="#818CF8" />
+  <circle cx="96" cy="156" r="10" fill="#818CF8" />
+  <circle cx="96" cy="340" r="10" fill="#818CF8" />
+
+  <line x1="256" y1="64" x2="256" y2="96" stroke="#38BDF8" stroke-width="3" stroke-dasharray="4 4" />
+  <line x1="416" y1="156" x2="384" y2="176" stroke="#818CF8" stroke-width="3" stroke-dasharray="4 4" />
+  <line x1="96" y1="156" x2="128" y2="176" stroke="#818CF8" stroke-width="3" stroke-dasharray="4 4" />
+
+  <!-- Certificate Scroll / Document Icon -->
+  <g transform="translate(176, 156)">
+    <!-- Certificate Main Paper Body -->
+    <rect x="0" y="0" width="160" height="200" rx="16" fill="#FFFFFF" filter="url(#shadow)" />
+
+    <!-- Certificate Header Bar -->
+    <rect x="20" y="24" width="120" height="14" rx="7" fill="#4F46E5" />
+
+    <!-- Certificate Content Lines -->
+    <rect x="20" y="50" width="80" height="8" rx="4" fill="#C7D2FE" />
+    <rect x="20" y="66" width="100" height="8" rx="4" fill="#E0E7FF" />
+    <rect x="20" y="82" width="60" height="8" rx="4" fill="#E0E7FF" />
+    <rect x="20" y="98" width="90" height="8" rx="4" fill="#E0E7FF" />
+
+    <!-- Verified Keyhole/Lock Ribbon Emblem -->
+    <circle cx="116" cy="140" r="28" fill="url(#sealGrad)" filter="url(#glow)" />
+
+    <!-- Keyhole Icon inside Seal -->
+    <circle cx="116" cy="134" r="6" fill="#FFFFFF" />
+    <path d="M113 138 L119 138 L120 148 L112 148 Z" fill="#FFFFFF" />
+
+    <!-- Checkmark Badge on Bottom Left -->
+    <circle cx="44" cy="144" r="16" fill="#10B981" />
+    <path d="M37 144 L42 149 L51 138" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+</svg>

@@ -1,0 +1,55 @@
+services:
+  backend:
+    # image: ca-console-backend:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ca-backend
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    ports:
+      - "3000:3000"
+    environment:
+      # URL of the Fabric CA server
+      - FABRIC_CA_SERVER_URL=https://ca_org1:7054
+      # Registrar role enrollment certificate
+      - FABRIC_REGISTRAR_CERT_PATH=/app/crypto/cert.pem
+      # Registrar role private key
+      - FABRIC_REGISTRAR_KEY_PATH=/app/crypto/key.pem
+      # TLS root CA certificate
+      - FABRIC_CA_CONNECT_TLS_CERT=/app/crypto/tls-cert.pem
+      # Optional: dedicated TLS CA root cert for multi-CA setups (leave unset to
+      # auto-fetch the live CAChain from /cainfo instead.)
+      # - FABRIC_TLSCA_ROOT_CERT=/app/crypto/tlsca-cert.pem
+      # Base directory for MSP folders created during enrollment
+      - FABRIC_CERT_BASE_DIR=/app/certs
+      # CORS Allowed Origins
+      - CORS_ALLOW_ORIGINS=http://localhost:3001
+    volumes:
+      # Mount crypto material into the container
+      - ./backend/crypto:/app/crypto:ro
+      # Persist generated MSP certificates in the local workspace
+      - ./backend/certs:/app/certs
+    networks:
+      - fabric_test
+    restart: unless-stopped
+
+  frontend:
+    image: ca-console-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ca-frontend
+    ports:
+      - "3001:3000"
+    environment:
+      # URL the frontend uses to reach the Go backend
+      - FABRIC_CA_API_URL=http://backend:3000
+    depends_on:
+      - backend
+    networks:
+      - fabric_test
+    restart: unless-stopped
+
+networks:
+  fabric_test:
+    external: true
