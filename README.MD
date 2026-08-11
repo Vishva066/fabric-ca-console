@@ -68,43 +68,65 @@ The bundled `test-network` is useful for development and demonstration. It is no
 
 ## Quick Start With the Test Network
 
-### 1. Start the Fabric test network
+To set up and start the complete environment in a single command, run from the repository root:
 
-From the repository root:
+```bash
+make all
+```
+
+This single command automatically executes all necessary setup steps: starting the Fabric test network with CA, deploying sample chaincode, copying registrar crypto credentials, and starting the Docker containers.
+
+Once running, access the application:
+- **Frontend UI:** [http://localhost:3001](http://localhost:3001)
+- **Backend API:** [http://localhost:3000](http://localhost:3000)
+
+The frontend container uses `FABRIC_CA_API_URL=http://backend:3000` to reach the backend over the Compose network. The browser normally calls the frontend-relative `/api/v1/...` routes.
+
+---
+
+### What `make all` Does (Step-by-Step Breakdown)
+
+If you prefer to run the steps individually or want to understand what `make all` does under the hood:
+
+#### 1. Start the Fabric test network
 
 ```bash
 make network-up
 ```
 
-This runs the Fabric test network with a channel and certificate authorities. The Compose configuration expects the external Docker network `fabric_test`.
+Runs the Fabric test network with a channel and certificate authorities on the external Docker network `fabric_test`.
 
-### 2. Copy the registrar material
-
-```bash
-make copy-crypto
-```
-
-This copies the Org1 registrar certificate, private key, and CA certificate into `backend/crypto/`, and creates `backend/certs/` for generated output.
-
-The files in `backend/crypto/` are credentials. Do not commit them or publish them in an issue, log, container image, or release artifact.
-
-### 3. Build and start the console
-
-```bash
-make docker-up
-```
-
-Open the frontend at [http://localhost:3001](http://localhost:3001). The backend API is available at [http://localhost:3000](http://localhost:3000).
-
-The frontend container uses `FABRIC_CA_API_URL=http://backend:3000` to reach the backend over the Compose network. The browser normally calls the frontend-relative `/api/v1/...` routes.
-
-To deploy the sample chaincode as well:
+#### 2. Deploy sample chaincode
 
 ```bash
 make deploy-chaincode
 ```
 
-To stop everything:
+Deploys the sample `basic` asset transfer chaincode to the Fabric test network channel.
+
+#### 3. Copy the registrar material
+
+```bash
+make copy-crypto
+```
+
+Copies the Org1 registrar certificate, private key, and CA certificate into `backend/crypto/`, and creates `backend/certs/` for generated output.
+
+> **Security Note:** The files in `backend/crypto/` are administrative credentials. Do not commit them or publish them in an issue, log, container image, or release artifact.
+
+#### 4. Build and start the console containers
+
+```bash
+make docker-up
+```
+
+Builds and launches the frontend and backend Docker containers.
+
+---
+
+### Stopping and Cleaning Up
+
+To stop the containers and network:
 
 ```bash
 make docker-down
@@ -118,8 +140,6 @@ make clean
 ```
 
 > **Note:** `make clean` will remove everything, including Docker containers, networks, volume storage, and generated certificates.
-
-`make all` runs `network-up`, deploys the sample chaincode, copies crypto material, and starts the containers. Use it only when that complete test-network setup is what you want.
 
 ## Environment Configuration
 
@@ -281,6 +301,15 @@ Guidelines for contributing:
 2. Once the issue is discussed, create a pull request with focused changes that preserve compatibility with existing API request fields.
 3. Update documentation when behavior changes.
 
+## Video Overview
+
+Check out a video walkthrough showcasing the features and interface of the **Fabric CA Console**:
+
+<video src="CA%20CONSOLE.mp4" controls muted width="100%"></video>
+
+> *Note: If the video player above does not render in your viewer, you can watch [`CA CONSOLE.mp4`](CA%20CONSOLE.mp4) directly.*
+
 ## License
 
 Fabric CA Console is released under the [Apache License 2.0](LICENSE).
+
