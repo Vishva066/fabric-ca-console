@@ -66,9 +66,12 @@ func GetMSPPath(baseDir, id, orgName, identityType string) (*MSPPaths, error) {
 	}, nil
 }
 
-// EnsureMSPDirs creates the necessary MSP directories.
-func (p *MSPPaths) EnsureMSPDirs() error {
-	dirs := []string{p.Keystore, p.SignCerts, p.CACerts, p.TLSCACerts}
+// EnsureMSPDirs creates the MSP directories, optionally including TLS CA storage.
+func (p *MSPPaths) EnsureMSPDirs(includeTLSCACerts bool) error {
+	dirs := []string{p.Keystore, p.SignCerts, p.CACerts}
+	if includeTLSCACerts {
+		dirs = append(dirs, p.TLSCACerts)
+	}
 	for _, d := range dirs {
 		if err := os.MkdirAll(d, 0755); err != nil {
 			return fmt.Errorf("failed to create directory %s: %v", d, err)
@@ -99,16 +102,16 @@ func FetchExplicitTLSCACert() ([]byte, bool, error) {
 	return certPEM, true, nil
 }
 
-// StoreMSP creates the full MSP folder structure and writes the key, cert, CA chain, and TLS CA cert files.
+// StoreMSP creates the MSP folder structure and writes the key, cert, CA chain, and optional TLS CA cert files.
 // privateKeyPEM can be nil/empty (e.g. during reenroll) — in that case the keystore write is skipped.
-// tlsCACertPEM can be nil/empty — in that case the tlscacerts write is skipped.
+// tlsCACertPEM can be nil/empty — in that case no TLS CA directory or certificate is created.
 func StoreMSP(baseDir, orgName, id, identityType string, privateKeyPEM, signCertPEM, caChainPEM, tlsCACertPEM []byte) (string, error) {
 	paths, err := GetMSPPath(baseDir, id, orgName, identityType)
 	if err != nil {
 		return "", fmt.Errorf("failed to resolve MSP path: %v", err)
 	}
 
-	if err := paths.EnsureMSPDirs(); err != nil {
+	if err := paths.EnsureMSPDirs(len(tlsCACertPEM) > 0); err != nil {
 		return "", fmt.Errorf("failed to create MSP directories: %v", err)
 	}
 
