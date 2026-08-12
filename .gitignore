@@ -1,3 +1,4 @@
 POSTMAN_GUIDE.md
 backend/.env
 test-network/asset-transfer-basic/chaincode-go/vendor
+*.mp4

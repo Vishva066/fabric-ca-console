@@ -305,9 +305,7 @@ Guidelines for contributing:
 
 Check out a video walkthrough showcasing the features and interface of the **Fabric CA Console**:
 
-<video src="CA%20CONSOLE.mp4" controls muted width="100%"></video>
-
-> *Note: If the video player above does not render in your viewer, you can watch [`CA CONSOLE.mp4`](CA%20CONSOLE.mp4) directly.*
+[Watch the Fabric CA Console walkthrough on YouTube](https://youtu.be/LjaI43G0UhM)
 
 ## License
 
