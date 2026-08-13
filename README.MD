@@ -85,8 +85,8 @@ The frontend container uses `FABRIC_CA_API_URL=http://backend:3000` to reach the
 ## Documentation
 
 - [Specifications and operations](docs/SPECIFICATIONS.MD): environment variables, MSP output, API endpoints, local development, troubleshooting, and security guidance.
-- [Connect to a private Fabric network](docs/customnetwork.md): configure the console for your own Fabric CA and Docker network.
-- [Postman API guide](POSTMAN_GUIDE.md): request bodies, response examples, and backend testing workflow.
+- [Connect to a custom Fabric network](docs/customnetwork.md): configure the console for your own Fabric CA and Docker network.
+
 
 ## Contributing
 
