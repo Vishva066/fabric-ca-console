@@ -1,16 +1,19 @@
 FROM node:22-alpine AS deps
 WORKDIR /app
+RUN apk upgrade --no-cache
 COPY package.json package-lock.json ./
 RUN npm ci
 
 FROM node:22-alpine AS builder
 WORKDIR /app
+RUN apk upgrade --no-cache
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
 FROM node:22-alpine AS runner
 WORKDIR /app
+RUN apk upgrade --no-cache
 ENV NODE_ENV=production
 
 COPY package.json package-lock.json ./
