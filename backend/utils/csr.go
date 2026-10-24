@@ -7,7 +7,9 @@ import (
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/pem"
+	"fmt"
 	"net"
+	"net/url"
 )
 
 // GeneratePrivateKey generates a new ECDSA P256 private key and returns it along with its PEM encoding
@@ -53,10 +55,45 @@ func GenerateCSR(key *ecdsa.PrivateKey, commonName string, hosts []string, subje
 		}
 	}
 
+	return generateCSR(key, subj, dnsNames, ipAddresses, nil, nil)
+}
+
+// GenerateCSRFromCertificate creates a CSR retaining the certificate subject and all SAN types.
+func GenerateCSRFromCertificate(key *ecdsa.PrivateKey, certPEM []byte) ([]byte, error) {
+	block, _ := pem.Decode(certPEM)
+	if block == nil {
+		return nil, fmt.Errorf("certificate PEM not found")
+	}
+
+	certificate, err := x509.ParseCertificate(block.Bytes)
+	if err != nil {
+		return nil, err
+	}
+
+	return generateCSR(
+		key,
+		certificate.Subject,
+		certificate.DNSNames,
+		certificate.IPAddresses,
+		certificate.EmailAddresses,
+		certificate.URIs,
+	)
+}
+
+func generateCSR(
+	key *ecdsa.PrivateKey,
+	subject pkix.Name,
+	dnsNames []string,
+	ipAddresses []net.IP,
+	emailAddresses []string,
+	uris []*url.URL,
+) ([]byte, error) {
 	template := x509.CertificateRequest{
-		Subject:            subj,
+		Subject:            subject,
 		DNSNames:           dnsNames,
 		IPAddresses:        ipAddresses,
+		EmailAddresses:     emailAddresses,
+		URIs:               uris,
 		SignatureAlgorithm: x509.ECDSAWithSHA256,
 	}
 

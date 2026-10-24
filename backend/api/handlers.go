@@ -518,10 +518,10 @@ func (h *Handler) ReenrollIdentity(c *fiber.Ctx) error {
 		}
 		newKeyPEM = newKeyBytes
 
-		csrBytes, err := util.GenerateCSR(newKey, req.ID, nil, nil)
+		csrBytes, err := util.GenerateCSRFromCertificate(newKey, identityCertPEM)
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": fmt.Sprintf("Failed to generate CSR: %v", err),
+				"error": fmt.Sprintf("Failed to generate CSR from existing certificate: %v", err),
 			})
 		}
 		csrPEM = string(csrBytes)
