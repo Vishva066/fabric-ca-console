@@ -8,6 +8,7 @@ import type {
   RevokeResponse,
   CertificateInfo,
   DecodeResult,
+  AlertSettings,
 } from "./types";
 
 async function apiFetch<T>(
@@ -106,5 +107,25 @@ export async function decodeCertificate(pem: string) {
   return apiFetch<{ result: DecodeResult }>("/api/v1/decode", {
     method: "POST",
     body: JSON.stringify({ pem }),
+  });
+}
+
+// ---------- Expiry alerts ----------
+
+export async function getAlertSettings() {
+  return apiFetch<{ result: AlertSettings }>("/api/v1/alerts");
+}
+
+export async function updateAlertSettings(body: Partial<AlertSettings> & { smtp_password?: string }) {
+  return apiFetch<{ result: AlertSettings }>("/api/v1/alerts", {
+    method: "PUT",
+    body: JSON.stringify(body),
+  });
+}
+
+export async function sendTestAlert() {
+  return apiFetch<{ success: boolean; message: string }>("/api/v1/alerts/test", {
+    method: "POST",
+    body: JSON.stringify({}),
   });
 }

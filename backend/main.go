@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"time"
 
 	"ca/api"
 
@@ -47,6 +48,11 @@ func main() {
 	apiGroup.Get("/crls", handler.GetCRLList)
 	apiGroup.Get("/identities", handler.ListIdentities)
 	apiGroup.Get("/certificates", handler.GetCertificates)
+	apiGroup.Get("/alerts", handler.GetAlertSettings)
+	apiGroup.Put("/alerts", handler.UpdateAlertSettings)
+	apiGroup.Post("/alerts/test", handler.SendTestAlert)
+
+	go handler.StartAlertScheduler(24 * time.Hour)
 
 	// Start server
 	log.Fatal(app.Listen(":3000"))

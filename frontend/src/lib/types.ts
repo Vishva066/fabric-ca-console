@@ -71,6 +71,18 @@ export interface ReenrollRequest {
   skip_tls_ca_cert?: boolean;
 }
 
+export interface AlertSettings {
+  enabled: boolean;
+  smtp_host: string;
+  smtp_port: number;
+  smtp_username: string;
+  from: string;
+  recipients: string[];
+  expiry_days: number;
+  check_interval_hours: number;
+  password_configured: boolean;
+}
+
 export interface RevokeRequest {
   id: string;
   org_name: string;

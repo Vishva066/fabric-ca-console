@@ -39,6 +39,12 @@ The Docker deployment is configured in [`../docker-compose.yml`](../docker-compo
 | `FABRIC_TLSCA_ROOT_CERT` | No | Unset | Optional separate TLS CA root written to enrolled MSPs. If unset, the backend uses the CA chain returned by `/api/v1/cainfo`. |
 | `FABRIC_CERT_BASE_DIR` | No | `.` | Base directory for generated MSP and CRL folders. Docker uses `/app/certs`. |
 | `CORS_ALLOW_ORIGINS` | No | `http://localhost:3001` | Allowed browser origins for the backend API. |
+| `SMTP_ALERT_ENABLED` | No | `false` | Enables certificate expiry email alerts. |
+| `SMTP_HOST` / `SMTP_PORT` | No | `587` | SMTP server connection settings. |
+| `SMTP_USERNAME` / `SMTP_PASSWORD` | No | Unset | Optional SMTP authentication credentials. |
+| `SMTP_FROM` / `SMTP_RECIPIENTS` | No | Unset | Sender and comma-separated alert recipients. |
+| `CERT_EXPIRY_ALERT_DAYS` | No | `15` | Alert threshold before certificate expiry. |
+| `CERT_EXPIRY_ALERT_INTERVAL_HOURS` | No | `24` | Background certificate check interval. |
 
 `FABRIC_CA_CONNECT_TLS_CERT` authenticates the connection from the backend to the CA. `FABRIC_TLSCA_ROOT_CERT` controls the TLS CA certificate written to an identity's MSP when a separate TLS CA is in use.
 
@@ -80,6 +86,9 @@ All backend routes are under `/api/v1`:
 | `GET` | `/identities` | List identities known to the configured CA. |
 | `GET` | `/certificates` | List and inspect certificates. |
 | `GET` | `/crls` | List identities with generated CRLs. |
+| `GET` | `/alerts` | Read runtime certificate expiry alert settings. |
+| `PUT` | `/alerts` | Update runtime certificate expiry alert settings. |
+| `POST` | `/alerts/test` | Send a test SMTP alert. |
 
 See [`../POSTMAN_GUIDE.md`](../POSTMAN_GUIDE.md) for request bodies and response examples.
 

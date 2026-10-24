@@ -27,6 +27,7 @@ type Handler struct {
 	AdminKeyPath    string
 	TLSCABundlePath string
 	HTTPClient      *http.Client
+	Alerts          *AlertManager
 }
 
 // NewHandler creates a new Handler instance
@@ -78,6 +79,7 @@ func NewHandler(csp bccsp.BCCSP) *Handler {
 		AdminKeyPath:    keyPath,
 		TLSCABundlePath: tlsRootCertPath,
 		HTTPClient:      client,
+		Alerts:          NewAlertManager(),
 	}
 }
 

@@ -12,6 +12,7 @@ const navItems = [
   { href: "/register", label: "Register", icon: "📝" },
   { href: "/enroll", label: "Enroll", icon: "🔐" },
   { href: "/decoder", label: "Certificate Decoder", icon: "🔍" },
+  { href: "/alerts", label: "Alerts", icon: "🔔" },
 ];
 
 export default function Sidebar() {
