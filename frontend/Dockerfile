@@ -1,17 +1,17 @@
-FROM node:22-alpine AS deps
+FROM node:26-alpine AS deps
 WORKDIR /app
 RUN apk upgrade --no-cache && npm install -g npm@12.2.3
 COPY package.json package-lock.json ./
 RUN npm ci
 
-FROM node:22-alpine AS builder
+FROM node:26-alpine AS builder
 WORKDIR /app
 RUN apk upgrade --no-cache && npm install -g npm@12.2.3
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
-FROM node:22-alpine AS runner
+FROM node:26-alpine AS runner
 WORKDIR /app
 # Upgrade OS packages and npm; force-replace npm's bundled vulnerable glob+minimatch
 # by installing patched versions globally and symlinking into npm's node_modules
