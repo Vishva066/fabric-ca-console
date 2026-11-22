@@ -17,7 +17,7 @@ COPY . .
 RUN CGO_ENABLED=1 GOOS=linux go build -a -installsuffix cgo -o ca-backend .
 
 # Final stage - using latest N-1 Alpine image
-FROM alpine:3.23
+FROM alpine:3.24
 
 WORKDIR /app
 
