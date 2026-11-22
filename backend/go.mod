@@ -3,7 +3,7 @@ module ca
 go 1.27.0
 
 require (
-	github.com/gofiber/fiber/v2 v2.52.15
+	github.com/gofiber/fiber/v2 v2.52.16
 	github.com/hyperledger/fabric-lib-go v1.1.2
 	github.com/pkg/errors v0.9.1
 )
